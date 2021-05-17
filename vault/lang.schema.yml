@@ -1,0 +1,208 @@
+version: 1
+schemas:
+- id: lang
+  title: language
+  desc: programming language
+  parent: root
+  pattern: lang
+  data:
+    namespace: true
+  children:
+    - operator
+    - d
+    - flow
+    - lib
+    - dev
+    - t
+    - files
+    - oo
+    - func
+    - types
+
+# --- operator
+- id: operator
+  children:
+    - comment
+    - create
+    - compare
+    - equal
+    - scope
+    - inspect
+    - format
+    - iterate
+    - destructure
+- id: comment
+- id: create
+- id: compare
+- id: equal
+  sections:
+    - value
+    - reference
+- id: scope
+- id: inspect
+- id: format
+- id: iterate
+- id: destructure
+  sections:
+    - array
+    - obj
+
+# --- data
+- id: d
+  title: data structure
+  children:
+    - boolean
+    - string
+    - array
+    - dict
+    - csv
+    - json
+    - set
+    - validation
+    - iterator
+- id: validation
+  desc: "runtime validation of data"
+- id: boolean
+- id: string
+  children:
+    - regex
+- id: regex
+- id: set
+- id: array
+- id: dict
+  children:
+    - defaultdict
+- id: defaultdict
+- id: csv
+- id: json
+- id: iterator
+
+# --- dev
+- id: dev
+  desc: "dev stuff"
+  children:
+    - dev.lib
+    - migration
+    - runtime
+    - mode
+- id: files
+  children:
+    - io
+    - path
+  sections:
+  - zip
+  - nav
+- id: path
+- id: runtime
+  desc: "java, .net, etc"
+- id: lib
+  namespace: true
+- id: import
+  sections:
+  - dynamic
+  - reload
+
+# --- deb.lib
+- id: "dev.lib"
+  title: lib
+  pattern: lib
+  children:
+    - publish
+    - binary
+    - import
+    - export
+    - dynamic
+- id: dynamic
+  desc: dynamically inspecting and modifying lib
+- id: publish
+- id: binary
+  desc: how to create executable binaries
+- id: export
+# --- topics
+- id: t
+  title: topic
+  children:
+    - system
+    - net
+    - time
+    - image
+- id: image
+- id: net
+  title: network
+- id: system
+  children:
+    - uuid
+    - cli
+    - shell
+- id: shell
+  desc: execute shell commands
+  sections:
+    - env
+    - exec
+    - fork
+    - eval
+- id: cli
+  desc: generate cli interface
+- id: uuid
+- id: exec
+  desc: "executing system comm"
+- id: io
+- id: migration
+- id: mode
+  desc: |
+    eg. 'strict' mode in javascript
+   
+# --- oo
+- id: oo
+  title: object oriented
+  children:
+    - scope
+    - inheritance
+
+- id: scope
+  sections:
+    - public
+    - protected
+    - private
+
+- id: inheritance
+
+# --- func
+- id: func
+  title: functional
+  sections:
+    - positional
+    - varargs
+    - keyword
+    - mixed
+    - defaults
+
+# --- flow
+- id: flow
+  sections.children:
+    - ternary
+  children:
+    - if
+    - while
+- id: if
+- id: while
+
+# --- types
+- id: types
+  children:
+    - generics
+    - modifiers
+    - union
+    - intersection
+    - interface
+- id: generics
+- id: modifiers
+  sections:
+    - partial
+    - readonly
+- id: union
+- id: intersection
+- id: interface
+
+# --- time
+- id: time

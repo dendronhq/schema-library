@@ -1,0 +1,40 @@
+version: 1
+schemas: 
+- id: pro
+  desc: project 
+  parent: root
+  namespace: true
+  children:
+    - concepts
+    - topic
+    - config
+    - debug
+    - qa
+    - design
+    - internal
+    - lifecycle
+    - quickstart
+    - changelog
+    - issues
+    - plugins
+- id: plugins
+  namespace: true
+- id: design
+  desc: project design 
+- id: issues
+- id: config
+  desc: project configuration
+- id: concepts
+- id: topic
+  namespace: true
+  pattern: t
+- id: internal
+  desc: Explanation of how code works
+- id: lifecycle
+- id: quickstart
+  desc: how to setup
+- id: concepts
+- id: debug
+- id: qa
+  title: quality assurance
+- id: changelog
