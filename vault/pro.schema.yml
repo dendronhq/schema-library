@@ -5,6 +5,7 @@ schemas:
   parent: root
   namespace: true
   children:
+    - contributing
     - concepts
     - topic
     - config
@@ -17,6 +18,9 @@ schemas:
     - changelog
     - issues
     - plugins
+- id: contributing
+  desc: |
+    How do others contribute
 - id: plugins
   namespace: true
 - id: design
