@@ -42,8 +42,8 @@ Track programming languages
         - ....
 ```
 
-### proj
-- link: [proj](proj.schema.yml)
+### pro
+- link: [pro](pro.schema.yml)
 
 Track projects
 
