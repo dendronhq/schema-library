@@ -1,208 +1,289 @@
 version: 1
-schemas:
-- id: lang
-  title: language
-  desc: programming language
-  parent: root
-  pattern: lang
-  data:
-    namespace: true
-  children:
-    - operator
-    - d
-    - flow
-    - lib
-    - dev
-    - t
-    - files
-    - oo
-    - func
-    - types
+schemas: # This schema has been formatted for newcomers to better understand schemas.
+  # --- .lang --- #
+  - id: lang # this id designates the schema and pattern for schema
+    title: language # title of heiarchy //(appears in lookup)
+    desc: "programming language" # description of heiarchy //(appears in lookup)create
+    parent: root # explicitly state parent id // eg. root
+    pattern: lang # glob pattern used to match the children of schema // https://facelessuser.github.io/wcmatch/glob/
+    namespace: true # if namespace equals true schema can have arbitrary children // equivalent to lang.*
+    # template: template.lang
+    # template to apply to direct children of schema // eg. lang.ruby, lang.python, etc.
+    children: # id(s) of children schemas
+      - op
+      - d
+      - flow
+      - dev
+      - t
+      - files
+      - oo
+      - func
+      - types
 
-# --- operator
-- id: operator
-  children:
-    - comment
-    - create
-    - compare
-    - equal
-    - scope
-    - inspect
-    - format
-    - iterate
-    - destructure
-- id: comment
-- id: create
-- id: compare
-- id: equal
-  sections:
-    - value
-    - reference
-- id: scope
-- id: inspect
-- id: format
-- id: iterate
-- id: destructure
-  sections:
-    - array
-    - obj
+  ## --- global ids --- ##
+  - id: array # shared between schemas // .lang.d && .lang.op.destructure
+  - id: io # shared between schemas // .lang.t && .lang.files
+    desc: "in/out"
+    # if you would like to add tags specific to different topics name the ids different if you are outlining them in the same schema.yml
+    # the last declared value for the id will win with conflicting ids. Take a look at lang.oo // for an example see line: 234
+  ## --- .lang.op --- ##
+  - id: op
+    desc: "language operators"
+    parent: lang
+    children:
+      - comment
+      - create
+      - compare
+      - scope
+      - inspect
+      - format
+      - iterate
+      - equal
+      - destructure
+  - id: comment
+  - id: create
+  - id: compare
+  - id: scope
+    desc: "language specific scopes"
+  - id: inspect
+  - id: format
+  - id: iterate
+  ### --- .lang.op.equal --- ###
+  - id: equal
+    parent: op
+    children:
+      - value
+      - reference
+  - id: value
+    parent: equal
+  - id: reference
+    parent: equal
+  ### --- .lang.op.destructure --- ###
+  - id: destructure
+    parent: op
+    children:
+      - array # declared in global ids // shared with .lang.d
+      - obj
+  - id: obj
+    parent: destructure
 
-# --- data
-- id: d
-  title: data structure
-  children:
-    - boolean
-    - string
-    - array
-    - dict
-    - csv
-    - json
-    - set
-    - validation
-    - iterator
-- id: validation
-  desc: "runtime validation of data"
-- id: boolean
-- id: string
-  children:
-    - regex
-- id: regex
-- id: set
-- id: array
-- id: dict
-  children:
-    - defaultdict
-- id: defaultdict
-- id: csv
-- id: json
-- id: iterator
+  ## --- .lang.d --- ##
+  - id: d
+    parent: lang
+    title: data structure
+    desc: "data structures"
+    children:
+      - boolean
+      - array # declared in global ids // shared with lang.op.destructure
+      - csv
+      - json
+      - set
+      - validation
+      - iterator
+      - string
+      - dict
+  - id: boolean
+  - id: csv
+  - id: json
+  - id: set
+  - id: validation
+    desc: "runtime validation of data"
+  - id: iterator
+  ### --- .lang.d.string --- ###
+  - id: string
+    parent: d
+    children:
+      - regex
+  - id: regex
+    parent: string
+  ### --- .lang.d.dict --- ###
+  - id: dict
+    parent: d
+    children:
+      - defaultdict
+  - id: defaultdict
+    parent: dict
 
-# --- dev
-- id: dev
-  desc: "dev stuff"
-  children:
-    - dev.lib
-    - migration
-    - runtime
-    - mode
-- id: files
-  children:
-    - io
-    - path
-  sections:
-  - zip
-  - nav
-- id: path
-- id: runtime
-  desc: "java, .net, etc"
-- id: lib
-  namespace: true
-- id: import
-  sections:
-  - dynamic
-  - reload
+  ## --- .lang.dev --- ##
+  - id: dev
+    desc: "dev stuff"
+    children:
+      - lib
+      - migration
+      - runtime
+      - mode
+  ### --- .lang.dev.lib --- ###
+  - id: lib
+    title: lib
+    desc: "libraries"
+    parent: dev
+    children:
+      - publish
+      - binary
+      - import
+      - export
+  - id: publish
+  - id: binary
+    desc: "how to create executable binaries"
+  - id: export
+  - id: migration
+    desc: "topics related to migrations"
+  - id: runtime
+    desc: "java, .net, etc"
+  - id: mode
+    desc: "eg. 'strict' mode in javascript"
+  #### --- .lang.dev.lib.import --- ####
+  - id: import
+    parent: lib
+    children:
+      - dynamic
+      - reload
+  - id: dynamic
+    desc: "dynamically inspecting and modifying lib"
+    parent: import
+  - id: reload
+    parent: import
 
-# --- deb.lib
-- id: "dev.lib"
-  title: lib
-  pattern: lib
-  children:
-    - publish
-    - binary
-    - import
-    - export
-    - dynamic
-- id: dynamic
-  desc: dynamically inspecting and modifying lib
-- id: publish
-- id: binary
-  desc: how to create executable binaries
-- id: export
-# --- topics
-- id: t
-  title: topic
-  children:
-    - system
-    - net
-    - time
-    - image
-- id: image
-- id: net
-  title: network
-- id: system
-  children:
-    - uuid
-    - cli
-    - shell
-- id: shell
-  desc: execute shell commands
-  sections:
-    - env
-    - exec
-    - fork
-    - eval
-- id: cli
-  desc: generate cli interface
-- id: uuid
-- id: exec
-  desc: "executing system comm"
-- id: io
-- id: migration
-- id: mode
-  desc: |
-    eg. 'strict' mode in javascript
-   
-# --- oo
-- id: oo
-  title: object oriented
-  children:
-    - scope
-    - inheritance
+  ## --- .lang.flow --- ##
+  - id: flow
+    desc: "language flow interpretation"
+    parent: lang
+    children:
+      - ternary
+  ### --- .lang.flow.ternary --- ###
+  - id: ternary
+    parent: flow
+    children:
+      - if
+      - else
+  - id: if
+    parent: ternary
+  - id: else
+    parent: ternary
 
-- id: scope
-  sections:
-    - public
-    - protected
-    - private
+  ## --- lang.t --- ##
+  - id: t
+    title: topics
+    desc: "topics"
+    parent: lang
+    children:
+      - net
+      - time
+      - image
+      - io # declared in global ids // shared with lang.files
+      - migration
+      - mode
+      - system
+  - id: net
+    desc: "networking"
+  - id: time
+    desc: "working with time"
+  - id: image
+    desc: "working with images"
+  - id: migration
+    desc: "anything related to migrations"
+  - id: mode
+    desc: "eg. 'strict' mode in javascript"
+  ### --- .lang.t.system --- ###
+  - id: system
+    parent: t
+    children:
+      - uuid
+      - cli
+      - shell
+  - id: uuid
+  - id: cli
+    desc: "generate cli interface"
+  #### --- .lang.t.system.shell --- ####
+  - id: shell
+    desc: "execute shell commands"
+    parent: system
+    children:
+      - env
+      - exec
+      - fork
+      - eval
+  - id: env
+  - id: exec
+    desc: "executing system commands"
+  - id: fork
+  - id: eval
 
-- id: inheritance
+  ## --- .lang.files --- ##
+  - id: files
+    desc: "file operations"
+    parent: lang
+    children:
+      - io # declared in global ids // shared with lang.t
+      - path
+      - zip
+      - nav
+  - id: path
+  - id: zip
+  - id: nav
 
-# --- func
-- id: func
-  title: functional
-  sections:
-    - positional
-    - varargs
-    - keyword
-    - mixed
-    - defaults
+  ## --- .lang.oo --- ##
+  - id: oo
+    desc: "object oriented"
+    parent: lang
+    children:
+      - inheritance
+      - scope-oo
+  - id: inheritance
+  ### --- .lang.oo.scope-oo --- ###
+  - id: scope-oo # declared differently as there are two scope ids but with different descriptions and needs
+    desc: "language implementation of scopes"
+    parent: oo
+    children:
+      - public
+      - protected
+      - private
+  - id: public
+    parent: scope-oo
+  - id: protected
+    parent: scope-oo
+  - id: private
+    parent: scope-oo
 
-# --- flow
-- id: flow
-  sections.children:
-    - ternary
-  children:
-    - if
-    - while
-- id: if
-- id: while
+  ## --- .lang.func --- ##
+  - id: func
+    title: functional
+    desc: "language functional implementations"
+    parent: lang
+    children:
+      - positional
+      - varargs
+      - keyword
+      - mixed
+      - defaults
+  - id: positional
+  - id: varargs
+  - id: keyword
+  - id: mixed
+  - id: defaults
 
-# --- types
-- id: types
-  children:
-    - generics
-    - modifiers
-    - union
-    - intersection
-    - interface
-- id: generics
-- id: modifiers
-  sections:
-    - partial
-    - readonly
-- id: union
-- id: intersection
-- id: interface
-
-# --- time
-- id: time
+  ## --- .lang.types --- ##
+  - id: types
+    desc: "types"
+    parent: lang
+    children:
+      - generics
+      - union
+      - intersection
+      - interface
+      - modifiers
+  - id: generics
+  - id: union
+  - id: intersection
+  - id: interface
+  ### --- .lang.types.modifiers --- ###
+  - id: modifiers
+    desc: "language modifiers"
+    parent: types
+    children:
+      - partial
+      - readonly
+  - id: partial
+    parent: modifiers
+  - id: readonly
+    parent: modifiers
