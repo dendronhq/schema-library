@@ -7,7 +7,7 @@ schemas: # This schema has been formatted for newcomers to better understand sch
     parent: root # explicitly state parent id // eg. root
     pattern: lang # glob pattern used to match the children of schema // https://facelessuser.github.io/wcmatch/glob/
     namespace: true # if namespace equals true schema can have arbitrary children // equivalent to lang.*
-    # template: template.lang 
+    # template: template.lang
     # template to apply to direct children of schema // eg. lang.ruby, lang.python, etc.
     children: # id(s) of children schemas
       - op
@@ -22,7 +22,7 @@ schemas: # This schema has been formatted for newcomers to better understand sch
 
   ## --- global ids --- ##
   - id: array # shared between schemas // .lang.d && .lang.op.destructure
-  - id: io    # shared between schemas // .lang.t && .lang.files
+  - id: io # shared between schemas // .lang.t && .lang.files
     desc: "in/out"
     # if you would like to add tags specific to different topics name the ids different if you are outlining them in the same schema.yml
     # the last declared value for the id will win with conflicting ids. Take a look at lang.oo // for an example see line: 234
